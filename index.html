@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tio Code - Scripts Premium para MTA</title>
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Ambient Background -->
+    <div class="ambient-bg"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" data-link="inicio">
+                <img src="tc.png" alt="Tio Code Logo">
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="#" class="nav-btn active" data-link="inicio"><i class='bx bx-home-alt'></i> Inicio</a></li>
+                <li><a href="#" class="nav-btn" data-link="tienda"><i class='bx bx-cube'></i> Productos</a></li>
+                <li><a href="https://discord.gg/v3WHugzNvm" target="_blank"><i class='bx bx-envelope'></i> Contacto</a></li>
+                <!-- FAQ y Docs ahora dirigen a inicio y scrollean, pero simplifiquemos a vistas completas -->
+                <li><a href="#" class="nav-btn" data-link="inicio" data-target="#faq"><i class='bx bx-question-mark'></i> FAQ</a></li>
+                <li><a href="#"><i class='bx bx-book-open'></i> Documentación</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button class="cart-btn nav-btn" data-link="carrito" style="position: relative;">
+                    <i class='bx bx-cart'></i>
+                    <span class="cart-badge" id="cartBadgeCount" style="display: none;">0</span>
+                </button>
+                <button class="login-btn" id="loginBtn"><i class='bx bx-log-in-circle'></i> Iniciar Sesión</button>
+
+                <!-- Estructura de usuario logueado -->
+                <div class="user-profile" id="userProfile" style="display: none;">
+                    <img src="" alt="Discord Avatar" class="user-avatar" id="userAvatar">
+                    <div class="user-dropdown">
+                        <a href="#" class="nav-btn" data-link="perfil"><i class='bx bx-user'></i> Perfil</a>
+                        <a href="#" id="adminPanelLink" class="nav-btn" data-link="admin" style="display: none;"><i class='bx bx-cog'></i> Panel
+                            Administrativo</a>
+                        <a href="#" id="logoutBtn" class="logout"><i class='bx bx-log-out'></i> Cerrar Sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        
+        <!-- ================= VISTA INICIO ================= -->
+        <div id="view-inicio" class="view active">
+            <!-- Hero Section -->
+            <section id="inicio" class="hero-section">
+                <div class="hero-badge">
+                    <i class='bx bxs-hot'></i> Tio Code - <span>Scripts Premium</span>
+                </div>
+                <h1 class="hero-title">Tio <br><span class="highlight">Code</span></h1>
+                <p class="hero-subtitle">Descubre scripts de alta calidad diseñados para<br><b>mejorar tu servidor MTA</b>
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary nav-btn" data-link="tienda"><i class='bx bx-cart'></i> Ver Scripts</a>
+                    <a href="https://discord.gg/v3WHugzNvm" target="_blank" class="btn btn-secondary"><i
+                            class='bx bx-message-square-detail'></i> Soporte</a>
+                </div>
+
+                <!-- Stats -->
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon magenta"><i class='bx bx-group'></i></div>
+                        <h3>+361</h3>
+                        <p>CLIENTES</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple"><i class='bx bx-package'></i></div>
+                        <h3><span id="homeProductsCount">0</span></h3>
+                        <p>PRODUCTOS</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials -->
+            <section class="testimonials-section">
+                <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+                <p class="section-subtitle">Conoce las experiencias de quienes ya confían en Tio Code</p>
+
+                <div class="testimonials-grid">
+                    <!-- Testimonial 1 -->
+                    <div class="testimonial-card">
+                        <div class="testi-header">
+                            <div class="avatar">L</div>
+                            <div class="testi-user">
+                                <h4>leonardo_p9019</h4>
+                                <span>CLIENTE</span>
+                            </div>
+                            <i class='bx bxs-quote-right quote-icon'></i>
+                        </div>
+                        <div class="stars">
+                            <i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i
+                                class='bx bxs-star'></i><i class='bx bx-star'></i>
+                        </div>
+                        <p class="testi-text">*Los mejores scripts diseñados y programados de mta*</p>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="testimonial-card">
+                        <div class="testi-header">
+                            <div class="avatar">G</div>
+                            <div class="testi-user">
+                                <h4>grabiel_monky</h4>
+                                <span>CLIENTE</span>
+                            </div>
+                            <i class='bx bxs-quote-right quote-icon'></i>
+                        </div>
+                        <div class="stars">
+                            <i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i
+                                class='bx bxs-star'></i><i class='bx bxs-star'></i>
+                        </div>
+                        <p class="testi-text">UFF algo poco visto en MTA : SA sin duda Tio Code tiene cosas exclusivas
+                            como
+                            ese sistema de inventario !!!</p>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div class="testimonial-card">
+                        <div class="testi-header">
+                            <div class="avatar">D</div>
+                            <div class="testi-user">
+                                <h4>di3go_brown</h4>
+                                <span>CLIENTE</span>
+                            </div>
+                            <i class='bx bxs-quote-right quote-icon'></i>
+                        </div>
+                        <div class="stars">
+                            <i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i
+                                class='bx bxs-star'></i><i class='bx bxs-star'></i>
+                        </div>
+                        <p class="testi-text">[TC]TC_Inventory 10/10 muy bueno</p>
+                    </div>
+
+                    <!-- Testimonial 4 -->
+                    <div class="testimonial-card">
+                        <div class="testi-header">
+                            <div class="avatar">d</div>
+                            <div class="testi-user">
+                                <h4>developer_mta</h4>
+                                <span>CLIENTE</span>
+                            </div>
+                            <i class='bx bxs-quote-right quote-icon'></i>
+                        </div>
+                        <div class="stars">
+                            <i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i
+                                class='bx bxs-star'></i><i class='bx bxs-star'></i>
+                        </div>
+                        <p class="testi-text">¡Lo mejor!!!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section id="faq" class="faq-section">
+                <h2 class="section-title">Preguntas Frecuentes</h2>
+                <p class="section-subtitle">Resolvemos las dudas más comunes sobre nuestros productos y servicios</p>
+
+                <div class="faq-accordion">
+                    <div class="faq-item">
+                        <div class="faq-header">
+                            <h3>¿Cómo puedo comprar un producto?</h3>
+                            <i class='bx bx-chevron-down'></i>
+                        </div>
+                        <div class="faq-content">
+                            <p>Puedes comprar a través de nuestra tienda seleccionando el script que deseas. Una vez
+                                elegido, contáctanos por Discord para coordinar el pago y la entrega.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-header">
+                            <h3>¿Qué métodos de pago aceptan?</h3>
+                            <i class='bx bx-chevron-down'></i>
+                        </div>
+                        <div class="faq-content">
+                            <p>Aceptamos PayPal, transferencias bancarias y pagos directos por Discord. Todos los métodos
+                                son seguros y con confirmación inmediata.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-header">
+                            <h3>¿Ofrecen productos personalizados?</h3>
+                            <i class='bx bx-chevron-down'></i>
+                        </div>
+                        <div class="faq-content">
+                            <p>Sí, ofrecemos desarrollo de scripts personalizados según tus necesidades. Cuéntanos qué
+                                tienes en mente y te damos un presupuesto.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-header">
+                            <h3>¿Los scripts incluyen soporte técnico?</h3>
+                            <i class='bx bx-chevron-down'></i>
+                        </div>
+                        <div class="faq-content">
+                            <p>Todos nuestros scripts incluyen soporte técnico por Discord. Te ayudamos con la
+                                instalación, configuración y cualquier problema.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+        <!-- ================= VISTA TIENDA ================= -->
+        <div id="view-tienda" class="view">
+            <section class="store-section page-layout">
+                <div class="breadcrumb">
+                    <a href="#" class="nav-btn" data-link="inicio"><i class='bx bx-home-alt'></i> Inicio</a> &rsaquo; <span>Tienda</span>
+                </div>
+                
+                <h1 class="store-page-title">Nuestros <span class="highlight">Productos</span></h1>
+                <p class="store-page-subtitle">Scripts premium para llevar tu servidor MTA al siguiente nivel</p>
+
+                <div class="store-layout">
+                    <!-- Sidebar Filters -->
+                    <aside class="store-sidebar">
+                        <div class="filter-header">
+                            <h3><i class='bx bx-filter-alt'></i> Filtros</h3>
+                            <button class="clear-filters">Limpiar</button>
+                        </div>
+
+                        <div class="filter-group">
+                            <h4>PRECIOS</h4>
+                            <div class="price-labels">
+                                <span>$0.00</span>
+                                <span>$150.00</span>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" min="0" max="150" value="150" class="slider" id="priceRange">
+                                <div class="slider-track"></div>
+                            </div>
+                        </div>
+
+                        <div class="filter-group categories">
+                            <h4>CATEGORÍAS</h4>
+                            <label class="checkbox-container">
+                                <input type="checkbox" value="scripts" checked>
+                                <span class="checkmark"></span>
+                                Scripts
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" value="planes">
+                                <span class="checkmark"></span>
+                                Planes
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" value="cursos">
+                                <span class="checkmark"></span>
+                                Cursos
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" value="combos">
+                                <span class="checkmark"></span>
+                                Combos
+                            </label>
+                        </div>
+                    </aside>
+
+                    <!-- Product Grid -->
+                    <div class="store-main">
+                        <div class="store-search-bar">
+                            <i class='bx bx-search'></i>
+                            <input type="text" id="searchInput" placeholder="Buscar productos...">
+                            <span class="product-count" id="storeProductCount">0 productos</span>
+                        </div>
+
+                        <div class="products-grid" id="dynamicProductsGrid">
+                            <!-- Inyectado via JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+        <!-- ================= VISTA PRODUCTO ================= -->
+        <div id="view-producto" class="view">
+            <section class="product-detail-section page-layout">
+                <div class="breadcrumb">
+                    <a href="#" class="nav-btn" data-link="inicio"><i class='bx bx-home-alt'></i> Inicio</a> &rsaquo; 
+                    <a href="#" class="nav-btn" data-link="tienda">Tienda</a> &rsaquo; 
+                    <span id="detailBreadcrumbName">Cargando...</span>
+                </div>
+
+                <div class="product-detail-layout">
+                    
+                    <!-- Lado Izquierdo: Galería -->
+                    <div class="product-gallery-col">
+                        <div class="main-image-box">
+                            <img src="" id="detailMainImage" alt="Producto">
+                        </div>
+                        <div class="gallery-title">
+                            <i class='bx bx-image'></i> Galería (<span id="detailGalleryCount">0</span> imágenes)
+                        </div>
+                        <div class="gallery-thumbnails" id="detailThumbnails">
+                            <!-- Miniaturas JS -->
+                        </div>
+                        <p class="gallery-hint">Clic en cualquier imagen para ampliar</p>
+
+                        <div class="product-desc-box mt-4">
+                            <h3><i class='bx bx-menu-alt-left'></i> Descripción del Producto</h3>
+                            <div class="desc-content" id="detailDescription">Cargando...</div>
+                        </div>
+                    </div>
+
+                    <!-- Lado Derecho: Info y Compra -->
+                    <div class="product-info-col">
+                        <div class="product-badges">
+                            <span class="badge detail-cat-badge" id="detailCategory">SCRIPT</span>
+                            <span class="badge badge-instant">ENTREGA INSTANTÁNEA</span>
+                        </div>
+                        <h1 class="product-title-large" id="detailTitle">Cargando...</h1>
+
+                        <div class="price-action-box">
+                            <div class="price-amount" id="detailPrice">$0.00</div>
+                            <div class="price-disclaimer">
+                                <strong>Pago único, acceso de por vida</strong><br>
+                                <span>(+ comisión PayPal si aplica)</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-large btn-primary-full mt-3" id="detailAddToCartBtn"><i class='bx bx-shopping-bag'></i> Agregar al Carrito</button>
+                        <button class="btn-large btn-dark mt-2 nav-btn" data-link="carrito"><i class='bx bx-cart'></i> Ver Carrito</button>
+                        <button class="btn-large btn-dark mt-2 nav-btn" data-link="tienda"><i class='bx bx-arrow-back'></i> Volver a la Tienda</button>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+
+
+        <!-- ================= VISTA ADMIN PANEL ================= -->
+        <div id="view-admin" class="view">
+            <section class="admin-section page-layout">
+                <div class="admin-header-row">
+                    <div>
+                        <h1 class="store-page-title"><i class='bx bx-lock-alt'></i> Panel <span class="highlight">Administrativo</span></h1>
+                        <p class="store-page-subtitle">Gestiona el inventario de scripts de forma local</p>
+                    </div>
+                    <button class="btn btn-primary" id="openAddModalBtn"><i class='bx bx-plus'></i> Subir Nuevo Producto</button>
+                </div>
+
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminProductsTable">
+                            <!-- Inyectado via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+            
+            <section class="admin-section page-layout" style="margin-top: -60px;">
+                <div class="summary-box">
+                    <h3 class="summary-title" style="margin-bottom: 15px;"><i class='bx bx-gift'></i> Otorgar Producto Manualmente</h3>
+                    <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Vincula un producto a un ID de Discord para que aparezca en su perfil de cliente.</p>
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label>ID de Discord del Cliente</label>
+                            <input type="text" id="grantDiscordId" placeholder="Ej: 1368858573685395488">
+                        </div>
+                        <div class="form-group">
+                            <label>Producto a Otorgar</label>
+                            <select id="grantProductId">
+                                <!-- Llenado por JS -->
+                            </select>
+                        </div>
+                        <div class="form-group" style="justify-content: flex-end;">
+                            <button class="btn btn-primary" id="grantProductBtn" style="height: 45px;"><i class='bx bx-check-shield'></i> Otorgar Producto</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= VISTA PERFIL ================= -->
+        <div id="view-perfil" class="view">
+            <section class="page-layout">
+                <div class="profile-header-card">
+                    <img src="tc.png" alt="Avatar" class="profile-big-avatar" id="profileBigAvatar">
+                    <div class="profile-user-info">
+                        <h2 style="font-size: 32px;"><span id="profileUsername">Usuario</span></h2>
+                        <span class="badge badge-instant" style="margin-top: 10px; display: inline-block;">MIEMBRO VERIFICADO</span>
+                        <p style="color: var(--text-muted); margin-top: 5px;">Discord ID: <span id="profileDiscordId">---</span></p>
+                    </div>
+                </div>
+                
+                <h2 style="margin-top: 40px; margin-bottom: 20px;"><i class='bx bx-folder-open'></i> Mis Productos Adquiridos</h2>
+                
+                <div class="products-grid" id="profileProductsGrid">
+                    <!-- Productos inyectados via JS -->
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= VISTA CARRITO ================= -->
+        <div id="view-carrito" class="view">
+            <section class="cart-section page-layout">
+                <div class="breadcrumb">
+                    <a href="#" class="nav-btn" data-link="inicio"><i class='bx bx-home-alt'></i> Inicio</a> &rsaquo; 
+                    <a href="#" class="nav-btn" data-link="tienda">Tienda</a> &rsaquo; 
+                    <span>Carrito</span>
+                </div>
+
+                <div class="cart-header-row">
+                    <h1 class="store-page-title" style="text-align: left;"><i class='bx bx-cart'></i> Tu <span class="highlight">Carrito</span></h1>
+                    <button class="btn-small-action btn-secondary" id="clearCartBtn"><i class='bx bx-trash'></i> Vaciar carrito</button>
+                </div>
+                <p style="margin-bottom: 20px; font-weight: 600; font-size: 18px;">Productos en el carrito <span class="badge badge-planes" id="cartHeaderCount">0</span></p>
+
+                <div class="cart-layout">
+                    <!-- Productos Izquierda -->
+                    <div class="cart-items-col" id="cartItemsContainer">
+                        <!-- Items inyectados via JS -->
+                        <div style="text-align: center; color: var(--text-muted); padding: 40px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--card-border);">
+                            Tu carrito está vacío.
+                        </div>
+                    </div>
+
+                    <!-- Resumen Derecha -->
+                    <div class="cart-summary-col">
+                        <div class="summary-box">
+                            <h3 class="summary-title"><i class='bx bx-receipt'></i> Resumen del Pedido</h3>
+                            
+                            <div class="coupon-box">
+                                <label>¿TIENES UN CUPÓN DE DESCUENTO?</label>
+                                <div class="coupon-input-group">
+                                    <i class='bx bx-tag-alt'></i>
+                                    <input type="text" placeholder="Código de cupón">
+                                    <button class="btn btn-secondary">Aplicar</button>
+                                </div>
+                            </div>
+                            
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span class="amount" id="cartSubtotal">$0.00</span>
+                            </div>
+
+                            <div class="payment-method-box">
+                                <label>MÉTODO DE PAGO</label>
+                                <select class="payment-select">
+                                    <option>Seleccionar método</option>
+                                    <option>PayPal</option>
+                                    <option>Tarjeta de Crédito</option>
+                                </select>
+                            </div>
+
+                            <label class="checkbox-container tos-checkbox">
+                                <input type="checkbox" id="tosCheck">
+                                <span class="checkmark"></span>
+                                Acepto los <span class="highlight">Términos de Uso</span> y la <span class="highlight">Política de Privacidad</span>
+                            </label>
+
+                            <div class="summary-row total-row">
+                                <span>Total</span>
+                                <span class="amount-large" id="cartTotal">$0.00</span>
+                            </div>
+
+                            <div class="auth-warning-box">
+                                <i class='bx bx-user'></i>
+                                <div>
+                                    <strong>Inicia sesión para continuar</strong>
+                                    <p>Necesitas una cuenta para realizar la compra.</p>
+                                </div>
+                            </div>
+
+                            <button class="btn-large btn-primary-full mt-3 disabled-checkout" id="checkoutBtn"><i class='bx bx-lock-alt'></i> Proceder al Checkout</button>
+                            
+                            <button class="btn-large btn-dark mt-2 nav-btn" data-link="tienda" style="font-size: 14px;"><i class='bx bx-arrow-back'></i> Seguir comprando</button>
+
+                            <div class="trust-badges">
+                                <div class="trust-badge"><i class='bx bx-shield-quarter'></i> Pago seguro</div>
+                                <div class="trust-badge"><i class='bx bx-bolt-circle'></i> Entrega instantánea</div>
+                                <div class="trust-badge"><i class='bx bxl-discord-alt'></i> Soporte 24/7</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Modal Administrativo de Creación/Edición -->
+    <div id="adminModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"><i class='bx bx-cog'></i> Subir Nuevo Producto</h2>
+                <button id="closeAdminModal" class="close-btn"><i class='bx bx-x'></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="addProductForm">
+                    <input type="hidden" id="editProductId">
+                    <div class="form-group">
+                        <label>Nombre del Producto</label>
+                        <input type="text" id="prodName" required placeholder="Ej: Tienda Avanzada">
+                    </div>
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label>Precio ($)</label>
+                            <input type="number" id="prodPrice" required placeholder="25.00" step="0.01" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Categoría</label>
+                            <select id="prodCategory">
+                                <option value="scripts">Scripts</option>
+                                <option value="planes">Planes</option>
+                                <option value="combos">Combos</option>
+                                <option value="cursos">Cursos</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción Larga</label>
+                        <textarea id="prodDesc" rows="4" required placeholder="Describe todas las funciones de tu producto..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Imágenes a mostrar</label>
+                        <div class="image-upload-area" id="imageUploadArea">
+                            <i class='bx bx-cloud-upload'></i>
+                            <p>Haz clic para subir múltiples imágenes</p>
+                            <input type="file" id="prodImages" multiple accept="image/*" style="display:none">
+                        </div>
+                        <div class="image-preview-grid" id="imagePreviewGrid"></div>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="submit" class="btn btn-primary submit-product-btn" id="submitModalBtn"><i class='bx bx-check'></i> Guardar Producto</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-col brand-col">
+                <img src="tc.png" alt="Tio Code Logo" class="footer-logo">
+                <p>Scripts de calidad para elevar tu servidor MTA al siguiente nivel.</p>
+                <div class="social-links">
+                    <a href="https://discord.gg/v3WHugzNvm" target="_blank"><i class='bx bxl-discord-alt'></i></a>
+                    <a href="#"><i class='bx bxl-youtube'></i></a>
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                    <a href="#"><i class='bx bxl-tiktok'></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col links-col">
+                <h4>NAVEGACIÓN</h4>
+                <ul>
+                    <li><a href="#" class="nav-btn" data-link="inicio">Inicio</a></li>
+                    <li><a href="#" class="nav-btn" data-link="tienda">Productos</a></li>
+                    <li><a href="https://discord.gg/v3WHugzNvm" target="_blank">Contacto</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col links-col">
+                <h4>PRODUCTOS</h4>
+                <ul>
+                    <li><a href="#">Plan Ilimitado</a></li>
+                    <li><a href="#">HUD de guion</a></li>
+                    <li><a href="#">Sistema de Rangos</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col links-col">
+                <h4>SOPORTE</h4>
+                <ul>
+                    <li><a href="https://discord.gg/v3WHugzNvm" target="_blank">Servidor Discord</a></li>
+                    <li><a href="https://discord.gg/v3WHugzNvm" target="_blank">Soporte Técnico</a></li>
+                    <li><a href="#">Términos de Uso</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <strong>Tio Code</strong> 2025. Todos los derechos reservados.</p>
+            <p>Hecho con <span class="heart">♥</span> para la comunidad MTA</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+
+</html>
