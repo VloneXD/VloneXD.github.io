@@ -682,68 +682,90 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* --- CHECKOUT Y TICKETS --- */
-    const checkoutBtn2 = document.getElementById('checkoutBtn');
-    if (checkoutBtn2) {
-        checkoutBtn2.addEventListener('click', async () => {
-            if (!window.currentUser) {
-                alert("Debes iniciar sesión con Discord primero.");
-                return;
-            }
-            
-            const tosCheck = document.getElementById('tosCheck');
-            if (!tosCheck || !tosCheck.checked) {
-                alert("Debes aceptar los Términos de Uso.");
-                return;
-            }
+/* ====================== CHECKOUT - CONEXIÓN CON EL BOT ====================== */
+const checkoutBtn = document.getElementById('checkoutBtn');
 
-            const cart = getCart();
-            if (cart.length === 0) return;
+if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', async () => {
+        // Verificaciones
+        if (!window.currentUser) {
+            alert("❌ Debes iniciar sesión con Discord primero.");
+            return;
+        }
 
-            const totalAmount = document.getElementById('cartTotal').textContent;
-            
-            const products = getProducts();
-            const orderItems = cart.map(id => {
-                const p = products.find(prod => prod.id === id);
-                return p ? p.name : 'Producto Desconocido';
+        const tosCheck = document.getElementById('tosCheck');
+        if (!tosCheck || !tosCheck.checked) {
+            alert("❌ Debes aceptar los Términos de Uso.");
+            return;
+        }
+
+        const cart = getCart();
+        if (cart.length === 0) {
+            alert("Tu carrito está vacío.");
+            return;
+        }
+
+        // Preparar datos
+        const products = getProducts();
+        const orderItems = cart.map(id => {
+            const p = products.find(prod => prod.id === id);
+            return p ? `${p.name} ($${p.price})` : 'Producto desconocido';
+        });
+
+        const totalAmount = document.getElementById('cartTotal').textContent || '$0.00';
+
+        // Feedback visual
+        const originalText = checkoutBtn.innerHTML;
+        checkoutBtn.innerHTML = `<i class='bx bx-loader-alt bx-spin'></i> Creando ticket...`;
+        checkoutBtn.disabled = true;
+
+        try {
+            const response = await fetch('http://5.78.180.254:5021/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    discordId: window.currentUser.id,
+                    username: window.currentUser.username,
+                    items: orderItems,
+                    total: totalAmount
+                })
             });
 
-            checkoutBtn2.innerHTML = "<i class='bx bx-loader-alt bx-spin'></i> Abriendo Ticket...";
-            checkoutBtn2.classList.add('disabled-checkout');
+            const data = await response.json();
 
-            try {
-                const response = await fetch('http://5.78.180.254:5021/api/checkout', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        discordId: window.currentUser.id,
-                        username: window.currentUser.username,
-                        items: orderItems,
-                        total: totalAmount
-                    })
-                });
+            if (response.ok && data.success) {
+                // Éxito
+                saveCart([]);
+                updateCartBadge();
 
-                if (response.ok) {
-                    const data = await response.json();
-                    
-                    saveCart([]); 
-                    updateCartBadge();
-                    
-                    alert("¡Ticket de compra creado con éxito! Te llevaremos a Discord para continuar el pago.");
-                    window.location.href = data.ticketUrl;
-                } else {
-                    alert("Error en la conexión con el Bot de Discord. Asegúrate de ejecutar `node index.js` en tu bot.");
-                    checkoutBtn2.innerHTML = "<i class='bx bx-lock-alt'></i> Proceder al Checkout";
-                    checkoutBtn2.classList.remove('disabled-checkout');
-                }
-            } catch(e) {
-                alert("Error crítico de conexión: No se pudo enlazar con localhost:3000. Activa el bot.");
-                checkoutBtn2.innerHTML = "<i class='bx bx-lock-alt'></i> Proceder al Checkout";
-                checkoutBtn2.classList.remove('disabled-checkout');
+                // Mensaje bonito dentro del carrito
+                const container = document.getElementById('cartItemsContainer');
+                container.innerHTML = `
+                    <div style="text-align:center; padding:60px 20px; background:var(--card-bg); border-radius:16px; border:2px solid #22c55e;">
+                        <h2 style="color:#22c55e; margin-bottom:15px;">✅ ¡Ticket creado correctamente!</h2>
+                        <p style="margin-bottom:25px;">Se ha abierto tu ticket de compra en Discord.</p>
+                        <a href="${data.ticketUrl}" target="_blank" 
+                           class="btn btn-primary-full" style="font-size:18px; padding:14px 32px;">
+                            🗣️ Ir a mi Ticket en Discord
+                        </a>
+                        <p style="margin-top:30px; color:var(--text-muted);">
+                            Un staff te atenderá pronto para procesar el pago.
+                        </p>
+                    </div>
+                `;
+            } else {
+                alert("❌ Error del bot: " + (data.error || "Inténtalo de nuevo"));
             }
-        });
-    }
-
+        } catch (e) {
+            console.error(e);
+            alert("❌ No se pudo conectar con el bot.\n\nVerifica que el bot esté Online en Cybrancee.");
+        } finally {
+            // Restaurar botón
+            checkoutBtn.innerHTML = originalText;
+            checkoutBtn.disabled = false;
+        }
+    });
+}
 
     /* --- FAQ Accordion --- */
     const faqItems = document.querySelectorAll('.faq-item');
