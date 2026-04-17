@@ -687,15 +687,16 @@ const checkoutBtn = document.getElementById('checkoutBtn');
 
 if (checkoutBtn) {
     checkoutBtn.addEventListener('click', async () => {
-        // Verificaciones
+        // Verificaciones iniciales
         if (!window.currentUser) {
             alert("❌ Debes iniciar sesión con Discord primero.");
+            navigateTo('inicio');
             return;
         }
 
         const tosCheck = document.getElementById('tosCheck');
         if (!tosCheck || !tosCheck.checked) {
-            alert("❌ Debes aceptar los Términos de Uso.");
+            alert("❌ Debes aceptar los Términos de Uso y la Política de Privacidad.");
             return;
         }
 
@@ -705,7 +706,7 @@ if (checkoutBtn) {
             return;
         }
 
-        // Preparar datos
+        // Preparar la orden
         const products = getProducts();
         const orderItems = cart.map(id => {
             const p = products.find(prod => prod.id === id);
@@ -714,7 +715,7 @@ if (checkoutBtn) {
 
         const totalAmount = document.getElementById('cartTotal').textContent || '$0.00';
 
-        // Feedback visual
+        // Mostrar loading
         const originalText = checkoutBtn.innerHTML;
         checkoutBtn.innerHTML = `<i class='bx bx-loader-alt bx-spin'></i> Creando ticket...`;
         checkoutBtn.disabled = true;
@@ -722,7 +723,9 @@ if (checkoutBtn) {
         try {
             const response = await fetch('http://5.78.180.254:5021/api/checkout', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({
                     discordId: window.currentUser.id,
                     username: window.currentUser.username,
@@ -738,27 +741,29 @@ if (checkoutBtn) {
                 saveCart([]);
                 updateCartBadge();
 
-                // Mensaje bonito dentro del carrito
                 const container = document.getElementById('cartItemsContainer');
-                container.innerHTML = `
-                    <div style="text-align:center; padding:60px 20px; background:var(--card-bg); border-radius:16px; border:2px solid #22c55e;">
-                        <h2 style="color:#22c55e; margin-bottom:15px;">✅ ¡Ticket creado correctamente!</h2>
-                        <p style="margin-bottom:25px;">Se ha abierto tu ticket de compra en Discord.</p>
-                        <a href="${data.ticketUrl}" target="_blank" 
-                           class="btn btn-primary-full" style="font-size:18px; padding:14px 32px;">
-                            🗣️ Ir a mi Ticket en Discord
-                        </a>
-                        <p style="margin-top:30px; color:var(--text-muted);">
-                            Un staff te atenderá pronto para procesar el pago.
-                        </p>
-                    </div>
-                `;
+                if (container) {
+                    container.innerHTML = `
+                        <div style="text-align:center; padding:60px 20px; background:var(--card-bg); border-radius:16px; border:2px solid #22c55e;">
+                            <h2 style="color:#22c55e; margin-bottom:15px;">✅ ¡Ticket creado correctamente!</h2>
+                            <p style="margin-bottom:25px;">Se ha abierto tu ticket de compra en Discord.</p>
+                            <a href="${data.ticketUrl}" target="_blank"
+                               class="btn btn-primary-full"
+                               style="font-size:18px; padding:14px 32px;">
+                                🗣️ Ir a mi Ticket en Discord
+                            </a>
+                            <p style="margin-top:30px; color:var(--text-muted);">
+                                Un miembro del staff te atenderá pronto para procesar el pago vía PayPal.
+                            </p>
+                        </div>
+                    `;
+                }
             } else {
-                alert("❌ Error del bot: " + (data.error || "Inténtalo de nuevo"));
+                alert("❌ Error del servidor: " + (data.error || "Por favor intenta nuevamente."));
             }
         } catch (e) {
-            console.error(e);
-            alert("❌ No se pudo conectar con el bot.\n\nVerifica que el bot esté Online en Cybrancee.");
+            console.error("Error en checkout:", e);
+            alert("❌ No se pudo conectar con el bot.\n\nAsegúrate de que el bot esté Online en Cybrancee.");
         } finally {
             // Restaurar botón
             checkoutBtn.innerHTML = originalText;
