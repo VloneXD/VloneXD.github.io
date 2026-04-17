@@ -712,7 +712,7 @@ document.addEventListener('DOMContentLoaded', () => {
             checkoutBtn2.classList.add('disabled-checkout');
 
             try {
-                const response = await fetch('http://localhost:3000/api/checkout', {
+                const response = await fetch('http://5.78.180.254:5021/api/checkout', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
